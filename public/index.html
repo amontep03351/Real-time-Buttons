@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Real-time Buttons</title>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    var socket = io();
+    
+    function sendButtonPress(button) {
+      socket.emit('buttonPress', button);
+    }
+
+    socket.on('buttonPress', function(button) {
+      if (button === 'A') {
+        document.getElementById('buttonA').style.backgroundColor = 'green';
+        document.getElementById('buttonB').style.backgroundColor = '';
+      } else if (button === 'B') {
+        document.getElementById('buttonA').style.backgroundColor = '';
+        document.getElementById('buttonB').style.backgroundColor = 'blue';
+      }
+    });
+  </script>
+  <style>
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <button id="buttonA" onclick="sendButtonPress('A')">Button A</button>
+  <button id="buttonB" onclick="sendButtonPress('B')">Button B</button>
+  <p id="status"></p>
+</body>
+</html>
